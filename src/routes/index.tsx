@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { SiteHeader } from "@/components/SiteHeader";
 import { TeamSection } from "@/components/TeamSection";
 
 export const Route = createFileRoute("/")({
@@ -19,7 +18,6 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="min-h-screen">
-      <SiteHeader />
       <section className="mx-auto max-w-6xl px-5 pb-16 pt-20 text-center">
         <p className="text-xs font-semibold uppercase tracking-[0.25em] text-gold">NSE · BSE Research</p>
         <h1 className="mx-auto mt-4 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">

@@ -87,3 +87,6 @@
     border-color: color-mix(in oklab, var(--primary) 45%, transparent);
   }
 }
+
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@utility animate-ticker { animation: ticker 60s linear infinite; }
