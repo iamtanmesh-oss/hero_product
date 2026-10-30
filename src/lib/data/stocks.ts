@@ -109,13 +109,12 @@ export function buildStock(s: StockSeed): Stock {
   const risk: Risk = (["Low", "Medium", "High"] as Risk[])[Math.floor(r() * 3)];
   let rev = between(20000, 600000);
   let margin = between(0.08, 0.22);
-  const financials = ["FY22", "FY23", "FY24", "FY25", "FY26"].map((year) => {
+  const financials = ["FY22", "FY23", "FY24", "FY25", "FY26"].map((year, i) => {
     rev *= 1 + between(0.03, 0.18);
     margin = Math.min(0.3, Math.max(0.05, margin + between(-0.015, 0.02)));
     const profit = rev * margin;
-    return { year, revenue: Math.round(rev), profit: Math.round(profit), ebitda: Math.round(profit * 1.6), ocf: Math.round(profit * between(0.9, 1.4)), eps: r2(eps * (0.7 + financials_i++ * 0.08)) };
+    return { year, revenue: Math.round(rev), profit: Math.round(profit), ebitda: Math.round(profit * 1.6), ocf: Math.round(profit * between(0.9, 1.4)), eps: r2(eps * (0.7 + i * 0.08)) };
   });
-  financials_i = 0;
   const q = financials[4].revenue / 4;
   const quarterly = ["Q3 FY26", "Q4 FY26", "Q1 FY27", "Q2 FY27"].map((label) => {
     const rv = Math.round(q * between(0.92, 1.1));
@@ -166,7 +165,6 @@ export function buildStock(s: StockSeed): Stock {
     dividends: ["FY22", "FY23", "FY24", "FY25", "FY26"].map((year, i) => ({ year, amount: r2(eps * divYield * pe / 100 * (0.8 + i * 0.06)) })),
   };
 }
-let financials_i = 0;
 
 /** Deterministic illustrative price history. */
 export function priceHistory(symbolOrIndex: string, last: number, points: number, volatility = 0.012) {
