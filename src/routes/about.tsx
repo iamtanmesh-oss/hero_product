@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { SiteHeader } from "@/components/SiteHeader";
 import { TeamSection } from "@/components/TeamSection";
 
 export const Route = createFileRoute("/about")({
@@ -19,7 +18,6 @@ export const Route = createFileRoute("/about")({
 function About() {
   return (
     <div className="min-h-screen">
-      <SiteHeader />
       <section className="mx-auto max-w-3xl px-5 pt-16 text-center">
         <h1 className="text-4xl font-bold md:text-5xl">Making Financial Research More Accessible</h1>
         <p className="mt-5 text-muted-foreground">
