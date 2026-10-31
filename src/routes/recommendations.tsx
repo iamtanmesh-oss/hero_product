@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { PageHeader } from "@/components/common";
 import { marketData, fmtCr } from "@/lib/data/provider";
-import { RecoCard } from "./index";
+import { RecoCard } from "@/components/RecoCard";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/recommendations")({ head: () => seo("Stock Recommendations", "Illustrative BUY, SELL and HOLD research examples with targets, stop loss, risk and valuation metrics."), component: Recos });
