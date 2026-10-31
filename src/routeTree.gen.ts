@@ -11,8 +11,20 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as CompareRouteImport } from './routes/compare'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as IpoRouteImport } from './routes/ipo'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as MethodologyRouteImport } from './routes/methodology'
+import { Route as NewsRouteImport } from './routes/news'
+import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as PremiumRouteImport } from './routes/premium'
+import { Route as PsuRouteImport } from './routes/psu'
 import { Route as RecommendationsRouteImport } from './routes/recommendations'
+import { Route as WatchlistRouteImport } from './routes/watchlist'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as StocksIndexRouteImport } from './routes/stocks.index'
 import { Route as StocksSymbolRouteImport } from './routes/stocks.$symbol'
 
@@ -26,14 +38,74 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CompareRoute = CompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IpoRoute = IpoRouteImport.update({
+  id: '/ipo',
+  path: '/ipo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MethodologyRoute = MethodologyRouteImport.update({
+  id: '/methodology',
+  path: '/methodology',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioRoute = PortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PremiumRoute = PremiumRouteImport.update({
+  id: '/premium',
+  path: '/premium',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PsuRoute = PsuRouteImport.update({
+  id: '/psu',
+  path: '/psu',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RecommendationsRoute = RecommendationsRouteImport.update({
   id: '/recommendations',
   path: '/recommendations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WatchlistRoute = WatchlistRouteImport.update({
+  id: '/watchlist',
+  path: '/watchlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StocksIndexRoute = StocksIndexRouteImport.update({
@@ -50,26 +122,62 @@ const StocksSymbolRoute = StocksSymbolRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/compare': typeof CompareRoute
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
+  '/ipo': typeof IpoRoute
+  '/login': typeof LoginRoute
+  '/methodology': typeof MethodologyRoute
+  '/news': typeof NewsRoute
+  '/portfolio': typeof PortfolioRoute
+  '/premium': typeof PremiumRoute
+  '/psu': typeof PsuRoute
   '/recommendations': typeof RecommendationsRoute
+  '/watchlist': typeof WatchlistRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/stocks/$symbol': typeof StocksSymbolRoute
+  '/blog/': typeof BlogIndexRoute
   '/stocks/': typeof StocksIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/compare': typeof CompareRoute
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
+  '/ipo': typeof IpoRoute
+  '/login': typeof LoginRoute
+  '/methodology': typeof MethodologyRoute
+  '/news': typeof NewsRoute
+  '/portfolio': typeof PortfolioRoute
+  '/premium': typeof PremiumRoute
+  '/psu': typeof PsuRoute
   '/recommendations': typeof RecommendationsRoute
+  '/watchlist': typeof WatchlistRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/stocks/$symbol': typeof StocksSymbolRoute
+  '/blog': typeof BlogIndexRoute
   '/stocks': typeof StocksIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/compare': typeof CompareRoute
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
+  '/ipo': typeof IpoRoute
+  '/login': typeof LoginRoute
+  '/methodology': typeof MethodologyRoute
+  '/news': typeof NewsRoute
+  '/portfolio': typeof PortfolioRoute
+  '/premium': typeof PremiumRoute
+  '/psu': typeof PsuRoute
   '/recommendations': typeof RecommendationsRoute
+  '/watchlist': typeof WatchlistRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/stocks/$symbol': typeof StocksSymbolRoute
+  '/blog/': typeof BlogIndexRoute
   '/stocks/': typeof StocksIndexRoute
 }
 export interface FileRouteTypes {
@@ -77,34 +185,82 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/compare'
+    | '/contact'
     | '/dashboard'
+    | '/ipo'
+    | '/login'
+    | '/methodology'
+    | '/news'
+    | '/portfolio'
+    | '/premium'
+    | '/psu'
     | '/recommendations'
+    | '/watchlist'
+    | '/blog/$slug'
     | '/stocks/$symbol'
+    | '/blog/'
     | '/stocks/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/compare'
+    | '/contact'
     | '/dashboard'
+    | '/ipo'
+    | '/login'
+    | '/methodology'
+    | '/news'
+    | '/portfolio'
+    | '/premium'
+    | '/psu'
     | '/recommendations'
+    | '/watchlist'
+    | '/blog/$slug'
     | '/stocks/$symbol'
+    | '/blog'
     | '/stocks'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/compare'
+    | '/contact'
     | '/dashboard'
+    | '/ipo'
+    | '/login'
+    | '/methodology'
+    | '/news'
+    | '/portfolio'
+    | '/premium'
+    | '/psu'
     | '/recommendations'
+    | '/watchlist'
+    | '/blog/$slug'
     | '/stocks/$symbol'
+    | '/blog/'
     | '/stocks/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  CompareRoute: typeof CompareRoute
+  ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRoute
+  IpoRoute: typeof IpoRoute
+  LoginRoute: typeof LoginRoute
+  MethodologyRoute: typeof MethodologyRoute
+  NewsRoute: typeof NewsRoute
+  PortfolioRoute: typeof PortfolioRoute
+  PremiumRoute: typeof PremiumRoute
+  PsuRoute: typeof PsuRoute
   RecommendationsRoute: typeof RecommendationsRoute
+  WatchlistRoute: typeof WatchlistRoute
+  BlogSlugRoute: typeof BlogSlugRoute
   StocksSymbolRoute: typeof StocksSymbolRoute
+  BlogIndexRoute: typeof BlogIndexRoute
   StocksIndexRoute: typeof StocksIndexRoute
 }
 
@@ -124,6 +280,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/compare': {
+      id: '/compare'
+      path: '/compare'
+      fullPath: '/compare'
+      preLoaderRoute: typeof CompareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
@@ -131,11 +301,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ipo': {
+      id: '/ipo'
+      path: '/ipo'
+      fullPath: '/ipo'
+      preLoaderRoute: typeof IpoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/methodology': {
+      id: '/methodology'
+      path: '/methodology'
+      fullPath: '/methodology'
+      preLoaderRoute: typeof MethodologyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio': {
+      id: '/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/premium': {
+      id: '/premium'
+      path: '/premium'
+      fullPath: '/premium'
+      preLoaderRoute: typeof PremiumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/psu': {
+      id: '/psu'
+      path: '/psu'
+      fullPath: '/psu'
+      preLoaderRoute: typeof PsuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/recommendations': {
       id: '/recommendations'
       path: '/recommendations'
       fullPath: '/recommendations'
       preLoaderRoute: typeof RecommendationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/watchlist': {
+      id: '/watchlist'
+      path: '/watchlist'
+      fullPath: '/watchlist'
+      preLoaderRoute: typeof WatchlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/stocks/': {
@@ -158,9 +398,21 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  CompareRoute: CompareRoute,
+  ContactRoute: ContactRoute,
   DashboardRoute: DashboardRoute,
+  IpoRoute: IpoRoute,
+  LoginRoute: LoginRoute,
+  MethodologyRoute: MethodologyRoute,
+  NewsRoute: NewsRoute,
+  PortfolioRoute: PortfolioRoute,
+  PremiumRoute: PremiumRoute,
+  PsuRoute: PsuRoute,
   RecommendationsRoute: RecommendationsRoute,
+  WatchlistRoute: WatchlistRoute,
+  BlogSlugRoute: BlogSlugRoute,
   StocksSymbolRoute: StocksSymbolRoute,
+  BlogIndexRoute: BlogIndexRoute,
   StocksIndexRoute: StocksIndexRoute,
 }
 export const routeTree = rootRouteImport
