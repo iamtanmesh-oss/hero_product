@@ -120,7 +120,7 @@ function StockPage() {
 
       <Section title="H. Research conclusion">
         <div className={card + " grid gap-3 md:grid-cols-2"}>
-          {[["Financial strength", s.de < 0.5 ? "Conservative balance sheet" : "Moderate leverage to monitor"], ["Business quality", s.roce > 18 ? "High capital efficiency" : "Average capital efficiency"], ["Valuation", s.pe > 35 ? "Premium valuation" : "Reasonable valuation"], ["Growth", `Sales growth of ${s.salesGrowth}%`], ["Risk assessment", `${s.risk} risk`], ["Overall", `Illustrative ${s.rating} opinion · target ${fmtINR(s.target)} · stop loss ${fmtINR(s.stopLoss)}`]].map(([k, v]) => <Stat key={k} label={k} value={v} />)}
+          {([["Financial strength", s.de < 0.5 ? "Conservative balance sheet" : "Moderate leverage to monitor"], ["Business quality", s.roce > 18 ? "High capital efficiency" : "Average capital efficiency"], ["Valuation", s.pe > 35 ? "Premium valuation" : "Reasonable valuation"], ["Growth", `Sales growth of ${s.salesGrowth}%`], ["Risk assessment", `${s.risk} risk`], ["Overall", `Illustrative ${s.rating} opinion · target ${fmtINR(s.target)} · stop loss ${fmtINR(s.stopLoss)}`]] as [string, string][]).map(([k, v]) => <Stat key={k as string} label={k} value={v} />)}
         </div>
       </Section>
 
