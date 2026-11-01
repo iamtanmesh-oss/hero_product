@@ -106,7 +106,7 @@ export function buildStock(s: StockSeed): Stock {
   const ratingRoll = r();
   const rating: Rating = ratingRoll > 0.55 ? "BUY" : ratingRoll > 0.2 ? "HOLD" : "SELL";
   const upside = rating === "BUY" ? between(10, 28) : rating === "HOLD" ? between(-3, 8) : between(-18, -8);
-  const risk: Risk = (["Low", "Medium", "High"] as Risk[])[Math.floor(r() * 3)];
+  const risk: Risk = (["Low", "Medium", "High"] as Risk[])[Math.floor(r() * 3)]!;
   let rev = between(20000, 600000);
   let margin = between(0.08, 0.22);
   const financials = ["FY22", "FY23", "FY24", "FY25", "FY26"].map((year, i) => {
@@ -115,7 +115,7 @@ export function buildStock(s: StockSeed): Stock {
     const profit = rev * margin;
     return { year, revenue: Math.round(rev), profit: Math.round(profit), ebitda: Math.round(profit * 1.6), ocf: Math.round(profit * between(0.9, 1.4)), eps: r2(eps * (0.7 + i * 0.08)) };
   });
-  const q = financials[4].revenue / 4;
+  const q = financials[4]!.revenue / 4;
   const quarterly = ["Q3 FY26", "Q4 FY26", "Q1 FY27", "Q2 FY27"].map((label) => {
     const rv = Math.round(q * between(0.92, 1.1));
     return { q: label, revenue: rv, profit: Math.round(rv * margin) };
@@ -156,7 +156,7 @@ export function buildStock(s: StockSeed): Stock {
     target: r2(price * (1 + upside / 100)),
     stopLoss: r2(price * between(0.86, 0.94)),
     risk,
-    horizon: (["6–12 months", "1–2 years", "2–3 years", "3+ years"])[Math.floor(r() * 4)],
+    horizon: (["6–12 months", "1–2 years", "2–3 years", "3+ years"])[Math.floor(r() * 4)]!,
     confidence: Math.round(between(55, 90)),
     researchScore: Math.round(between(55, 92)),
     holding: { promoter, fii, dii, mf, public: pub },
@@ -170,7 +170,7 @@ export function buildStock(s: StockSeed): Stock {
 export function priceHistory(symbolOrIndex: string, last: number, points: number, volatility = 0.012) {
   const r = rng(symbolOrIndex + ":" + points);
   const arr: number[] = [last];
-  for (let i = 1; i < points; i++) arr.push(arr[i - 1] / (1 + (r() - 0.48) * volatility * 2));
+  for (let i = 1; i < points; i++) arr.push(arr[i - 1]! / (1 + (r() - 0.48) * volatility * 2));
   return arr.reverse().map((v, i) => {
     const o = v * (1 + (r() - 0.5) * volatility);
     return { i, close: r2(v), open: r2(o), high: r2(Math.max(v, o) * (1 + r() * volatility)), low: r2(Math.min(v, o) * (1 - r() * volatility)), volume: Math.round((0.5 + r()) * 1e6) };

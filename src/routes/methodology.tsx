@@ -27,8 +27,8 @@ function Method() {
         ))}
       </div>
       <div className="glass mt-5 rounded-2xl p-6">
-        <h2 className="text-xl font-bold">Stage {i + 1}: {STAGES[i][0]}</h2>
-        <div className="mt-4 flex flex-wrap gap-2">{STAGES[i][1].map((x) => <span key={x} className="rounded-full bg-muted px-3 py-1.5 text-sm">{x}</span>)}</div>
+        <h2 className="text-xl font-bold">Stage {i + 1}: {STAGES[i]![0]}</h2>
+        <div className="mt-4 flex flex-wrap gap-2">{STAGES[i]![1].map((x) => <span key={x} className="rounded-full bg-muted px-3 py-1.5 text-sm">{x}</span>)}</div>
       </div>
       <h2 className="mt-14 text-2xl font-bold">From findings to a research opinion</h2>
       <div className="mt-5 grid gap-4 md:grid-cols-3">

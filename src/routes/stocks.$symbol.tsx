@@ -71,7 +71,7 @@ function StockPage() {
       <Section title="B. Fundamental analysis">
         <div className="grid grid-cols-2 gap-2 md:grid-cols-5">
           <Stat label="Revenue growth" value={pct(s.salesGrowth)} /><Stat label="Net profit growth" value={pct(s.profitGrowth)} /><Stat label="Operating margin" value={s.opm + "%"} /><Stat label="EBITDA margin" value={s.ebitdaMargin + "%"} /><Stat label="ROE" value={s.roe + "%"} />
-          <Stat label="ROCE" value={s.roce + "%"} /><Stat label="Debt / Equity" value={s.de} /><Stat label="EPS" value={fmtINR(s.eps)} /><Stat label="Operating cash flow" value={fmtCr(f[4].ocf)} /><Stat label="Working capital" value={fmtCr(f[4].revenue * 0.08)} />
+          <Stat label="ROCE" value={s.roce + "%"} /><Stat label="Debt / Equity" value={s.de} /><Stat label="EPS" value={fmtINR(s.eps)} /><Stat label="Operating cash flow" value={fmtCr(f[4]!.ocf)} /><Stat label="Working capital" value={fmtCr(f[4]!.revenue * 0.08)} />
         </div>
         <div className={card + " mt-4"}><p className="mb-2 text-sm font-semibold">5-year revenue & profit (₹ Cr)</p><MiniBars data={f.map((x) => ({ year: x.year, Revenue: x.revenue, Profit: x.profit }))} keys={[{ k: "Revenue", color: "var(--primary)" }, { k: "Profit", color: "var(--gold)" }]} /></div>
       </Section>
@@ -111,7 +111,7 @@ function StockPage() {
 
       <Section title="G. SWOT analysis">
         <div className="grid gap-4 md:grid-cols-2">
-          {[["Strengths", [`Established position in ${s.sector}`, `ROE of ${s.roe}% in demo data`]], ["Weaknesses", [s.de > 1 ? "Elevated leverage" : "Limited pricing power in some segments", "Cyclical exposure"]], ["Opportunities", ["Domestic demand growth", `Expansion in ${s.segments[0]}`]], ["Threats", ["Regulatory changes", "Competitive intensity"]]].map(([t, items]) => (
+          {[["Strengths", [`Established position in ${s.sector}`, `ROE of ${s.roe}% in demo data`]], ["Weaknesses", [s.de > 1 ? "Elevated leverage" : "Limited pricing power in some segments", "Cyclical exposure"]], ["Opportunities", ["Domestic demand growth", `Expansion in ${s.segments[0] ?? s.sector}`]], ["Threats", ["Regulatory changes", "Competitive intensity"]]].map(([t, items]) => (
             <div key={t as string} className={card}><p className="font-semibold text-gold">{t as string}</p><ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted-foreground">{(items as string[]).map((i) => <li key={i}>{i}</li>)}</ul></div>
           ))}
         </div>
@@ -120,7 +120,7 @@ function StockPage() {
 
       <Section title="H. Research conclusion">
         <div className={card + " grid gap-3 md:grid-cols-2"}>
-          {[["Financial strength", s.de < 0.5 ? "Conservative balance sheet" : "Moderate leverage to monitor"], ["Business quality", s.roce > 18 ? "High capital efficiency" : "Average capital efficiency"], ["Valuation", s.pe > 35 ? "Premium valuation" : "Reasonable valuation"], ["Growth", `Sales growth of ${s.salesGrowth}%`], ["Risk assessment", `${s.risk} risk`], ["Overall", `Illustrative ${s.rating} opinion · target ${fmtINR(s.target)} · stop loss ${fmtINR(s.stopLoss)}`]].map(([k, v]) => <Stat key={k} label={k} value={v} />)}
+          {([["Financial strength", s.de < 0.5 ? "Conservative balance sheet" : "Moderate leverage to monitor"], ["Business quality", s.roce > 18 ? "High capital efficiency" : "Average capital efficiency"], ["Valuation", s.pe > 35 ? "Premium valuation" : "Reasonable valuation"], ["Growth", `Sales growth of ${s.salesGrowth}%`], ["Risk assessment", `${s.risk} risk`], ["Overall", `Illustrative ${s.rating} opinion · target ${fmtINR(s.target)} · stop loss ${fmtINR(s.stopLoss)}`]] as [string, string][]).map(([k, v]) => <Stat key={k as string} label={k} value={v} />)}
         </div>
       </Section>
 

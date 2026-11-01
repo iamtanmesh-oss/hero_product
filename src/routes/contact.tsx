@@ -18,7 +18,7 @@ function Contact() {
       ) : (
         <form className="glass mt-8 space-y-4 rounded-2xl p-6" onSubmit={(e) => {
           e.preventDefault();
-          if (f.name.trim().length < 2 || !/^\S+@\S+\.\S+$/.test(f.email) || f.message.trim().length < 10) return toast.error("Please enter your name, a valid email and a message of at least 10 characters.");
+          if (f.name.trim().length < 2 || !/^\S+@\S+\.\S+$/.test(f.email) || f.message.trim().length < 10) { toast.error("Please enter your name, a valid email and a message of at least 10 characters."); return; }
           setSent(true);
         }}>
           <input className={input} placeholder="Full name" maxLength={100} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} />

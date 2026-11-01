@@ -7,18 +7,18 @@ type P = keyof typeof PERIODS;
 
 const tip = { contentStyle: { background: "var(--popover)", border: "1px solid var(--border)", borderRadius: 8, fontSize: 12 } };
 
-export function PriceChart({ id, last, height = 260 }: { id: string; last: number; height?: number }) {
+export function PriceChart({ id, last, height = 260, bare = false }: { id: string; last: number; height?: number; bare?: boolean }) {
   const [p, setP] = useState<P>("1M");
   const data = useMemo(() => priceHistory(id + p, last, PERIODS[p], p === "5Y" ? 0.03 : 0.012), [id, last, p]);
-  const up = data[data.length - 1].close >= data[0].close;
+  const up = data[data.length - 1]!.close >= data[0]!.close;
   const color = up ? "var(--primary)" : "var(--destructive)";
   return (
     <div>
-      <div className="mb-3 flex flex-wrap gap-1">
+      {!bare && <div className="mb-3 flex flex-wrap gap-1">
         {(Object.keys(PERIODS) as P[]).map((k) => (
           <button key={k} onClick={() => setP(k)} className={"rounded-md px-2.5 py-1 text-xs font-medium " + (k === p ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:text-foreground")}>{k}</button>
         ))}
-      </div>
+      </div>}
       <ResponsiveContainer width="100%" height={height}>
         <AreaChart data={data}>
           <defs>
@@ -28,7 +28,7 @@ export function PriceChart({ id, last, height = 260 }: { id: string; last: numbe
             </linearGradient>
           </defs>
           <XAxis dataKey="i" hide />
-          <YAxis domain={["auto", "auto"]} width={60} tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} axisLine={false} tickLine={false} />
+          <YAxis hide={bare} domain={["auto", "auto"]} width={60} tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} axisLine={false} tickLine={false} />
           <Tooltip {...tip} labelFormatter={() => "Demo data"} />
           <Area type="monotone" dataKey="close" stroke={color} strokeWidth={2} fill={`url(#g${id})`} />
         </AreaChart>
@@ -101,7 +101,7 @@ export function MiniBars({ data, keys }: { data: Record<string, number | string>
   return (
     <ResponsiveContainer width="100%" height={240}>
       <ComposedChart data={data}>
-        <XAxis dataKey={Object.keys(data[0])[0]} tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} axisLine={false} tickLine={false} />
+        <XAxis dataKey={Object.keys(data[0] ?? {})[0] ?? "x"} tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} axisLine={false} tickLine={false} />
         <YAxis width={70} tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} axisLine={false} tickLine={false} />
         <Tooltip {...tip} />
         {keys.map((x) => <Bar key={x.k} dataKey={x.k} fill={x.color} radius={[4, 4, 0, 0]} />)}

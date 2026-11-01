@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- All stock/market figures come through `marketData` in src/lib/data/provider.ts (demo provider with fallback); UI never hardcodes values, so a licensed feed can be swapped in later.
+- Watchlist and portfolio persist in localStorage via useLocal until authentication/backend is enabled.
