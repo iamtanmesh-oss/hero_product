@@ -50,7 +50,7 @@ function Watch() {
               <div key={it.symbol} className="grid items-center gap-3 p-2 md:grid-cols-[1fr_auto]">
                 <StockRow s={s} />
                 <div className="flex flex-wrap items-center gap-2 px-3 pb-2 md:pb-0">
-                  <input type="number" placeholder="Target ₹" value={it.target ?? ""} onChange={(e) => { const c = [...items]; c[idx] = { ...it, target: e.target.value ? +e.target.value : undefined }; update(c); }} className="w-28 rounded-lg border border-input bg-secondary px-2 py-1.5 text-sm" />
+                  <input type="number" placeholder="Target ₹" value={it.target ?? ""} onChange={(e) => { const c = [...items]; const { target: _t, ...rest } = it; c[idx] = e.target.value ? { ...rest, target: +e.target.value } : rest; update(c); }} className="w-28 rounded-lg border border-input bg-secondary px-2 py-1.5 text-sm" />
                   {hit && <span className="text-xs text-primary">Target reached</span>}
                   <label className="flex items-center gap-1 text-xs text-muted-foreground"><input type="checkbox" checked={!!it.news} onChange={(e) => { const c = [...items]; c[idx] = { ...it, news: e.target.checked }; update(c); }} />News alerts</label>
                   <button aria-label="Remove" onClick={() => update(items.filter((x) => x.symbol !== it.symbol))} className="text-muted-foreground hover:text-destructive"><Trash2 className="h-4 w-4" /></button>

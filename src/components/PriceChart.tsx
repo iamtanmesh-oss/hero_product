@@ -10,7 +10,7 @@ const tip = { contentStyle: { background: "var(--popover)", border: "1px solid v
 export function PriceChart({ id, last, height = 260 }: { id: string; last: number; height?: number }) {
   const [p, setP] = useState<P>("1M");
   const data = useMemo(() => priceHistory(id + p, last, PERIODS[p], p === "5Y" ? 0.03 : 0.012), [id, last, p]);
-  const up = data[data.length - 1].close >= data[0].close;
+  const up = data[data.length - 1]!.close >= data[0]!.close;
   const color = up ? "var(--primary)" : "var(--destructive)";
   return (
     <div>
@@ -101,7 +101,7 @@ export function MiniBars({ data, keys }: { data: Record<string, number | string>
   return (
     <ResponsiveContainer width="100%" height={240}>
       <ComposedChart data={data}>
-        <XAxis dataKey={Object.keys(data[0])[0]} tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} axisLine={false} tickLine={false} />
+        <XAxis dataKey={Object.keys(data[0] ?? {})[0] ?? "x"} tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} axisLine={false} tickLine={false} />
         <YAxis width={70} tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} axisLine={false} tickLine={false} />
         <Tooltip {...tip} />
         {keys.map((x) => <Bar key={x.k} dataKey={x.k} fill={x.color} radius={[4, 4, 0, 0]} />)}

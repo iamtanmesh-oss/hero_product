@@ -37,7 +37,7 @@ function PSU() {
         <div className="glass rounded-2xl p-5"><p className="mb-2 font-semibold">Dividend yield analysis (%)</p><MiniBars data={psu.map((s) => ({ s: s.symbol, "Div %": s.divYield }))} keys={[{ k: "Div %", color: "var(--gold)" }]} /></div>
         <div className="glass rounded-2xl p-5"><p className="mb-2 font-semibold">Government ownership (%)</p><MiniBars data={psu.map((s) => ({ s: s.symbol, Govt: s.govtStake ?? 0 }))} keys={[{ k: "Govt", color: "var(--primary)" }]} /></div>
         <div className="glass rounded-2xl p-5"><p className="mb-2 font-semibold">Debt analysis (D/E)</p><MiniBars data={psu.map((s) => ({ s: s.symbol, "D/E": s.de }))} keys={[{ k: "D/E", color: "var(--destructive)" }]} /></div>
-        <div className="glass rounded-2xl p-5"><p className="mb-2 font-semibold">Capital expenditure proxy — FY26 investing outflow (₹ Cr)</p><MiniBars data={psu.map((s) => ({ s: s.symbol, Capex: Math.round(s.financials[4].ocf * 0.6) }))} keys={[{ k: "Capex", color: "var(--primary)" }]} /></div>
+        <div className="glass rounded-2xl p-5"><p className="mb-2 font-semibold">Capital expenditure proxy — FY26 investing outflow (₹ Cr)</p><MiniBars data={psu.map((s) => ({ s: s.symbol, Capex: Math.round(s.financials[4]!.ocf * 0.6) }))} keys={[{ k: "Capex", color: "var(--primary)" }]} /></div>
       </div>
       <Section title="Research reports">
         <div className="grid gap-3 md:grid-cols-3">{psu.map((s) => <Link key={s.symbol} to="/stocks/$symbol" params={{ symbol: s.symbol }} className="glass glow-hover rounded-xl p-4"><p className="font-semibold">{s.name}</p><p className="text-xs text-muted-foreground">Full research report →</p></Link>)}</div>

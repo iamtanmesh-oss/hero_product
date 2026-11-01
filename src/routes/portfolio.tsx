@@ -21,7 +21,7 @@ function Portfolio() {
   const [form, setForm] = useState({ symbol: "", qty: "", buy: "" });
   const [pname, setPname] = useState("");
   const hold = ports[cur] ?? [];
-  const rows = hold.map((h) => { const s = marketData.get(h.symbol)!; return { ...h, s, inv: h.qty * h.buy, val: h.qty * s.price, div: h.qty * s.dividends[4].amount }; });
+  const rows = hold.map((h) => { const s = marketData.get(h.symbol)!; return { ...h, s, inv: h.qty * h.buy, val: h.qty * s.price, div: h.qty * s.dividends[4]!.amount }; });
   const inv = rows.reduce((a, r) => a + r.inv, 0);
   const val = rows.reduce((a, r) => a + r.val, 0);
   const sectors = Object.entries(rows.reduce<Record<string, number>>((m, r) => ((m[r.s.sector] = (m[r.s.sector] ?? 0) + r.val), m), {})).map(([name, value]) => ({ name, value: Math.round(value) }));
@@ -39,7 +39,7 @@ function Portfolio() {
         <form className="glass grid gap-2 rounded-2xl p-4 md:grid-cols-4" onSubmit={(e) => {
           e.preventDefault();
           const qty = +form.qty, buy = +form.buy;
-          if (!form.symbol || !(qty > 0) || !(buy > 0)) return toast.error("Choose a stock and enter a positive quantity and price");
+          if (!form.symbol || !(qty > 0) || !(buy > 0)) { toast.error("Choose a stock and enter a positive quantity and price"); return; }
           setPorts({ ...ports, [cur]: [...hold, { id: crypto.randomUUID(), symbol: form.symbol, qty, buy }] });
           setForm({ symbol: "", qty: "", buy: "" }); toast.success("Holding added");
         }}>

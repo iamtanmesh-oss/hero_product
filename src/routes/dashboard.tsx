@@ -10,7 +10,7 @@ export const Route = createFileRoute("/dashboard")({ head: () => seo("Market Das
 
 function Dashboard() {
   const all = marketData.all();
-  const [sel, setSel] = useState(INDICES[0]);
+  const [sel, setSel] = useState(INDICES[0]!);
   const by = (k: (s: (typeof all)[0]) => number) => [...all].sort((a, b) => k(b) - k(a));
   const sectors = Object.entries(all.reduce<Record<string, number[]>>((m, s) => ((m[s.sector] ??= []).push(s.changePct), m), {})).map(([sector, v]) => ({ sector, chg: +(v.reduce((a, b) => a + b, 0) / v.length).toFixed(2) }));
   const adv = all.filter((s) => s.changePct > 0).length;

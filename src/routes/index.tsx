@@ -116,7 +116,7 @@ function Index() {
             <p className="mt-3 text-muted-foreground">Detailed reports, advanced screening and exclusive educational content.</p>
             <Link to="/premium" className="mt-6 inline-flex rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground">See plans</Link>
           </div>
-          <form onSubmit={(e) => { e.preventDefault(); if (!/^\S+@\S+\.\S+$/.test(email)) return toast.error("Enter a valid email"); toast.success("Thanks! Newsletter sign-ups will be saved once the mailing list is connected."); setEmail(""); }}>
+          <form onSubmit={(e) => { e.preventDefault(); if (!/^\S+@\S+\.\S+$/.test(email)) { toast.error("Enter a valid email"); return; } toast.success("Thanks! Newsletter sign-ups will be saved once the mailing list is connected."); setEmail(""); }}>
             <h3 className="font-semibold">Weekly research newsletter</h3>
             <div className="mt-3 flex gap-2">
               <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@email.com" className="flex-1 rounded-full border border-input bg-background px-4 py-2.5 text-sm" />
