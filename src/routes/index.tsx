@@ -30,7 +30,7 @@ function Index() {
   return (
     <div>
       <section className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 opacity-25"><PriceChart id="hero" last={24350} height={480} /></div>
+        <div className="pointer-events-none absolute inset-0 opacity-25"><PriceChart id="hero" last={24350} height={480} bare /></div>
         <div className="relative mx-auto max-w-7xl px-5 pb-20 pt-20 text-center md:pt-28">
           <DemoBadge />
           <h1 className="mx-auto mt-5 max-w-4xl text-4xl font-bold leading-tight md:text-6xl">
