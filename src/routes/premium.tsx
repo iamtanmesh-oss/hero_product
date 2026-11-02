@@ -1,3 +1,4 @@
+import { useMarketData } from "@/hooks/use-market-data";
 import { createFileRoute } from "@tanstack/react-router";
 import { Check } from "lucide-react";
 import { useState } from "react";
@@ -15,6 +16,7 @@ const PLANS = [
 ];
 
 function Premium() {
+  const marketData = useMarketData();
   const [yearly, setYearly] = useState(false);
   const all = marketData.all();
   const groups: [string, typeof all][] = [

@@ -4,6 +4,7 @@
  * `MarketDataProvider` and registering it in `providers` — no UI changes.
  */
 import { SEEDS, buildStock, type Stock, DEMO_DATE } from "./stocks";
+import { INDEX_SYMBOLS, type Quote } from "./quotes";
 
 export type DataStatus = "Live" | "Delayed" | "End-of-day" | "Historical" | "Demo";
 
@@ -55,12 +56,35 @@ function refresh() {
 }
 
 export const marketData = {
-  all: () => (cache ?? refresh()).stocks,
-  status: () => (cache ?? refresh()).status,
-  updated: () => (cache ?? refresh()).updated,
+  demoStocks: () => (cache ?? refresh()).stocks,
+  all: () => currentStocks ?? (cache ?? refresh()).stocks,
+  status: (): DataStatus => quotes.size ? "Delayed" : "Demo",
+  updated: () => [...quotes.values()].map((q) => q.asOf).sort().at(-1) ?? DEMO_DATE,
   get: (symbol: string) => marketData.all().find((s) => s.symbol === symbol.toUpperCase()),
+  quote: (symbol: string) => quotes.get(symbol.endsWith(".NS") || symbol.startsWith("^") ? symbol : symbol + ".NS"),
+  indices: () => INDEX_SYMBOLS.flatMap((index) => {
+    const quote = quotes.get(index.symbol);
+    return quote ? [{ ...index, value: quote.price, change: quote.change, changePct: quote.changePct, asOf: quote.asOf }] : [];
+  }),
+  apply: (incoming: Quote[]) => {
+    incoming.forEach((q) => quotes.set(q.symbol, q));
+    currentStocks = (cache ?? refresh()).stocks.map((stock) => {
+      const q = quotes.get(stock.symbol + ".NS");
+      return q ? { ...stock, price: q.price, change: q.change, changePct: q.changePct,
+        volume: q.volume ?? stock.volume, high52: q.high52 ?? stock.high52, low52: q.low52 ?? stock.low52 } : stock;
+    });
+    revision++;
+    listeners.forEach((listener) => listener());
+  },
+  subscribe: (listener: () => void) => { listeners.add(listener); return () => { listeners.delete(listener); }; },
+  revision: () => revision,
   refresh,
 };
+
+const quotes = new Map<string, Quote>();
+let currentStocks: Stock[] | undefined;
+let revision = 0;
+const listeners = new Set<() => void>();
 
 export const fmtINR = (n: number, d = 2) => "₹" + n.toLocaleString("en-IN", { maximumFractionDigits: d, minimumFractionDigits: d });
 export const fmtCr = (n: number) => "₹" + Math.round(n).toLocaleString("en-IN") + " Cr";

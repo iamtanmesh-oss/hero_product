@@ -4,7 +4,9 @@ import { toast } from "sonner";
 import { Change, DemoBadge, Logo, RatingPill, Section, StockRow } from "@/components/common";
 import { PriceChart } from "@/components/PriceChart";
 import { RecoCard } from "@/components/RecoCard";
-import { BLOG, INDICES, IPOS, NEWS } from "@/lib/data/content";
+import { BLOG, IPOS, NEWS } from "@/lib/data/content";
+import { useMarketData } from "@/hooks/use-market-data";
+import { quoteTime } from "@/lib/data/quotes";
 import { marketData, pct } from "@/lib/data/provider";
 import type { Stock } from "@/lib/data/stocks";
 
@@ -23,14 +25,16 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const all = marketData.all();
+  const data = useMarketData();
+  const all = data.all();
+  const indices = data.indices();
   const sorted = [...all].sort((a, b) => b.changePct - a.changePct);
   const buys = all.filter((s) => s.rating === "BUY");
   const [email, setEmail] = useState("");
   return (
     <div>
       <section className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 opacity-25"><PriceChart id="hero" last={24350} height={480} bare /></div>
+        <div className="pointer-events-none absolute inset-0 opacity-25">{indices[0] && <PriceChart id="hero" last={indices[0].value} height={480} bare />}</div>
         <div className="relative mx-auto max-w-7xl px-5 pb-20 pt-20 text-center md:pt-28">
           <DemoBadge />
           <h1 className="mx-auto mt-5 max-w-4xl text-4xl font-bold leading-tight md:text-6xl">
@@ -48,10 +52,11 @@ function Index() {
 
       <Section title="Today's Market Overview" action={<Link to="/dashboard" className="text-sm text-primary">Full dashboard →</Link>}>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-6">
-          {INDICES.slice(0, 6).map((x) => (
-            <div key={x.name} className="glass rounded-xl p-4"><p className="text-xs text-muted-foreground">{x.name}</p><p className="mt-1 text-lg font-bold">{x.value.toLocaleString("en-IN")}</p><Change v={x.changePct} className="text-xs" /></div>
+          {indices.slice(0, 6).map((x) => (
+            <div key={x.name} className="glass rounded-xl p-4"><p className="text-xs text-muted-foreground">{x.name}</p><p className="mt-1 text-lg font-bold">{x.value.toLocaleString("en-IN")}</p><Change v={x.changePct} className="text-xs" /><p className="mt-1 text-[10px] text-muted-foreground">{quoteTime(x.asOf)}</p></div>
           ))}
         </div>
+        {indices.length === 0 && <p className="text-sm text-muted-foreground">Waiting for verified index quotes.</p>}
       </Section>
 
       <Section title="Top Stock Recommendations" action={<Link to="/recommendations" className="text-sm text-primary">All picks →</Link>}>

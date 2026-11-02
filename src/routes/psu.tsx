@@ -1,3 +1,5 @@
+import { useMarketData } from "@/hooks/use-market-data";
+import { quoteTime } from "@/lib/data/quotes";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Change, PageHeader, Section } from "@/components/common";
@@ -10,6 +12,7 @@ export const Route = createFileRoute("/psu")({ head: () => seo("PSU Stock Resear
 const CATS: Record<string, string> = { Banking: "PSU Banking", Power: "Power", "Oil & Gas": "Oil & Gas", Defence: "Defence", Mining: "Mining", Infrastructure: "Infrastructure" };
 
 function PSU() {
+  const marketData = useMarketData();
   const psu = marketData.all().filter((s) => s.psu);
   const [cat, setCat] = useState("");
   const list = psu.filter((s) => !cat || CATS[s.sector] === cat);
@@ -25,7 +28,7 @@ function PSU() {
             <thead><tr className="border-b border-border text-left text-xs text-muted-foreground">{["Company", "Category", "CMP", "Chg", "Govt stake", "Div yield", "D/E", "ROE", "P/E", "Mcap"].map((h) => <th key={h} className="p-3">{h}</th>)}</tr></thead>
             <tbody>{list.map((s) => (
               <tr key={s.symbol} className="border-b border-border/40">
-                <td className="p-3"><Link to="/stocks/$symbol" params={{ symbol: s.symbol }} className="font-semibold hover:text-primary">{s.name}</Link></td>
+                <td className="p-3"><Link to="/stocks/$symbol" params={{ symbol: s.symbol }} className="font-semibold hover:text-primary">{s.name}</Link><p className="text-[10px] text-muted-foreground">{marketData.quote(s.symbol) ? quoteTime(marketData.quote(s.symbol)?.asOf ?? "") : "Demo price"}</p></td>
                 <td className="p-3">{CATS[s.sector]}</td><td className="p-3">₹{s.price}</td><td className="p-3"><Change v={s.changePct} /></td><td className="p-3">{s.govtStake}%</td><td className="p-3">{s.divYield}%</td><td className="p-3">{s.de}</td><td className="p-3">{s.roe}%</td><td className="p-3">{s.pe}</td><td className="p-3">{fmtCr(s.marketCap)}</td>
               </tr>
             ))}</tbody>

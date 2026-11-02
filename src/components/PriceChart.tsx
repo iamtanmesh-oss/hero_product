@@ -14,6 +14,7 @@ export function PriceChart({ id, last, height = 260, bare = false }: { id: strin
   const color = up ? "var(--primary)" : "var(--destructive)";
   return (
     <div>
+      {!bare && <p className="mb-2 text-xs text-muted-foreground">Illustrative price history · not actual market candles</p>}
       {!bare && <div className="mb-3 flex flex-wrap gap-1">
         {(Object.keys(PERIODS) as P[]).map((k) => (
           <button key={k} onClick={() => setP(k)} className={"rounded-md px-2.5 py-1 text-xs font-medium " + (k === p ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:text-foreground")}>{k}</button>
@@ -54,6 +55,7 @@ export function TechnicalChart({ id, last }: { id: string; last: number }) {
   const fib = [0.236, 0.382, 0.5, 0.618].map((f) => ({ f, v: hi - (hi - lo) * f }));
   return (
     <div className="space-y-6">
+      <p className="text-xs text-muted-foreground">Illustrative technical charts · not actual market history</p>
       <div>
         <p className="mb-2 text-sm font-semibold">Candlestick (last 50 sessions)</p>
         <svg viewBox="0 0 500 190" className="h-56 w-full">

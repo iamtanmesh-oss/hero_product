@@ -1,3 +1,5 @@
+import { useMarketData } from "@/hooks/use-market-data";
+import { quoteTime } from "@/lib/data/quotes";
 import { createFileRoute } from "@tanstack/react-router";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -9,12 +11,13 @@ import { marketData, fmtINR, pct } from "@/lib/data/provider";
 import { useLocal } from "@/lib/useLocal";
 import { seo } from "@/lib/seo";
 
-export const Route = createFileRoute("/portfolio")({ head: () => seo("Portfolio Tracker", "Track holdings, profit and loss, allocation and dividend income — simulated with demonstration prices."), component: Portfolio });
+export const Route = createFileRoute("/portfolio")({ head: () => seo("Portfolio Tracker", "Track holdings, allocation and profit and loss using the latest available quotes; sample dividend estimates."), component: Portfolio });
 
 type H = { id: string; symbol: string; qty: number; buy: number };
 const COLORS = ["var(--primary)", "var(--gold)", "#4fc3f7", "#ef5350", "#ab47bc", "#26a69a", "#ffa726", "#8d6e63"];
 
 function Portfolio() {
+  const marketData = useMarketData();
   const [ports, setPorts] = useLocal<Record<string, H[]>>("ib-portfolios", { "Main Portfolio": [] });
   const names = Object.keys(ports);
   const [cur, setCur] = useState(names[0] ?? "Main Portfolio");
@@ -28,7 +31,7 @@ function Portfolio() {
   const input = "rounded-lg border border-input bg-secondary px-3 py-2 text-sm";
   return (
     <div>
-      <PageHeader eyebrow="My account" title="Portfolio Tracker" subtitle="Valuations are simulated using demonstration prices. Saved on this device until sign-in is switched on." />
+      <PageHeader eyebrow="My account" title="Portfolio Tracker" subtitle="Valuations use available market quotes, with demo fallback where unavailable. Holdings are saved on this device." />
       <div className="mx-auto max-w-7xl space-y-6 px-5">
         <div className="flex flex-wrap gap-2">
           {names.map((n) => <button key={n} onClick={() => setCur(n)} className={"rounded-full px-4 py-2 text-sm " + (n === cur ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground")}>{n}</button>)}
@@ -49,9 +52,9 @@ function Portfolio() {
           <button className="rounded-lg bg-primary text-sm font-semibold text-primary-foreground">Add holding</button>
         </form>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
-          <Stat label="Invested" value={fmtINR(inv)} /><Stat label="Current value (simulated)" value={fmtINR(val)} />
+          <Stat label="Invested" value={fmtINR(inv)} /><Stat label="Current value" value={fmtINR(val)} />
           <Stat label="P&L" value={<span className={val - inv >= 0 ? "text-primary" : "text-destructive"}>{fmtINR(val - inv)}</span>} />
-          <Stat label="Return" value={inv ? pct(((val - inv) / inv) * 100) : "—"} /><Stat label="Annual dividend income" value={fmtINR(rows.reduce((a, r) => a + r.div, 0))} />
+          <Stat label="Return" value={inv ? pct(((val - inv) / inv) * 100) : "—"} /><Stat label="Dividend income (demo)" value={fmtINR(rows.reduce((a, r) => a + r.div, 0))} />
         </div>
         <div className="glass overflow-x-auto rounded-2xl">
           <table className="w-full min-w-[700px] text-sm">
@@ -60,7 +63,7 @@ function Portfolio() {
               {rows.length === 0 && <tr><td colSpan={8} className="p-6 text-center text-muted-foreground">No holdings yet — add your first one above.</td></tr>}
               {rows.map((r) => (
                 <tr key={r.id} className="border-b border-border/40">
-                  <td className="p-3 font-semibold">{r.symbol}</td><td className="p-3">{r.qty}</td><td className="p-3">{fmtINR(r.buy)}</td><td className="p-3">{fmtINR(r.s.price)}</td><td className="p-3">{fmtINR(r.inv)}</td><td className="p-3">{fmtINR(r.val)}</td>
+                  <td className="p-3 font-semibold">{r.symbol}<p className="text-[10px] font-normal text-muted-foreground">{marketData.quote(r.symbol) ? quoteTime(marketData.quote(r.symbol)?.asOf ?? "") : "Demo price"}</p></td><td className="p-3">{r.qty}</td><td className="p-3">{fmtINR(r.buy)}</td><td className="p-3">{fmtINR(r.s.price)}</td><td className="p-3">{fmtINR(r.inv)}</td><td className="p-3">{fmtINR(r.val)}</td>
                   <td className={"p-3 " + (r.val >= r.inv ? "text-primary" : "text-destructive")}>{pct(((r.val - r.inv) / r.inv) * 100)}</td>
                   <td className="p-3"><button aria-label="Remove" onClick={() => setPorts({ ...ports, [cur]: hold.filter((h) => h.id !== r.id) })}><Trash2 className="h-4 w-4 text-muted-foreground hover:text-destructive" /></button></td>
                 </tr>

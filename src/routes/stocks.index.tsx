@@ -1,3 +1,5 @@
+import { useMarketData } from "@/hooks/use-market-data";
+import { quoteTime } from "@/lib/data/quotes";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Change, PageHeader, RatingPill } from "@/components/common";
@@ -13,6 +15,7 @@ const FILTERS: [K, string][] = [["pe", "Max P/E"], ["pb", "Max P/B"], ["de", "Ma
 const MINS: [K, string][] = [["roe", "Min ROE"], ["roce", "Min ROCE"], ["divYield", "Min Div %"], ["salesGrowth", "Min sales gr."], ["profitGrowth", "Min profit gr."]];
 
 function Screener() {
+  const marketData = useMarketData();
   const nav = useNavigate();
   const all = marketData.all();
   const [q, setQ] = useState("");
@@ -27,7 +30,7 @@ function Screener() {
   const input = "rounded-lg border border-input bg-secondary px-3 py-2 text-sm";
   return (
     <div>
-      <PageHeader eyebrow="Stock Research" title="Stock Screener" subtitle="Search, filter and sort the IndexBaazaar demonstration universe. Click any row to open its research page." />
+      <PageHeader eyebrow="Stock Research" title="Stock Screener" subtitle="Latest available prices for the IndexBaazaar stock universe. Fundamentals and opinions are illustrative." />
       <div className="mx-auto max-w-7xl px-5">
         <div className="glass grid gap-2 rounded-2xl p-4 sm:grid-cols-2 lg:grid-cols-6">
           <input className={input + " lg:col-span-2"} placeholder="Search company or symbol" value={q} onChange={(e) => setQ(e.target.value)} />
@@ -48,7 +51,7 @@ function Screener() {
             <tbody>
               {rows.map((s) => (
                 <tr key={s.symbol} onClick={() => nav({ to: "/stocks/$symbol", params: { symbol: s.symbol } })} className="cursor-pointer border-b border-border/50 hover:bg-muted/50">
-                  <td className="p-3"><p className="font-semibold">{s.symbol}</p><p className="text-xs text-muted-foreground">{s.name} · {s.sector}</p></td>
+                  <td className="p-3"><p className="font-semibold">{s.symbol}</p><p className="text-xs text-muted-foreground">{s.name} · {s.sector}</p><p className="text-[10px] text-muted-foreground">{marketData.quote(s.symbol) ? quoteTime(marketData.quote(s.symbol)?.asOf ?? "") : "Demo price"}</p></td>
                   <td className="p-3"><RatingPill r={s.rating} /></td>
                   {COLS.map(([k]) => <td key={k} className="p-3">{k === "changePct" ? <Change v={s.changePct} /> : (s[k] as number).toLocaleString("en-IN")}</td>)}
                 </tr>

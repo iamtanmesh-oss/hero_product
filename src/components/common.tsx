@@ -1,14 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { INDICES } from "@/lib/data/content";
 import { DEMO_DATE } from "@/lib/data/stocks";
 import { pct } from "@/lib/data/provider";
+import { useMarketData } from "@/hooks/use-market-data";
+import { quoteTime } from "@/lib/data/quotes";
 import type { Stock } from "@/lib/data/stocks";
 
 export function DemoBadge({ className = "" }: { className?: string }) {
   return (
     <span className={"inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-gold " + className}>
-      <span className="h-1.5 w-1.5 rounded-full bg-gold" /> Demo data – not live
+      <span className="h-1.5 w-1.5 rounded-full bg-gold" /> Illustrative research · not investment advice
     </span>
   );
 }
@@ -21,7 +22,7 @@ export function PageHeader({ eyebrow, title, subtitle, children }: { eyebrow?: s
       {subtitle && <p className="mt-3 max-w-3xl text-muted-foreground">{subtitle}</p>}
       <div className="mt-4 flex flex-wrap items-center gap-3">
         <DemoBadge />
-        <span className="text-xs text-muted-foreground">Demonstration date: {DEMO_DATE}</span>
+        <span className="text-xs text-muted-foreground">Research sample date: {DEMO_DATE}</span>
         {children}
       </div>
     </section>
@@ -54,6 +55,7 @@ export function Logo({ s }: { s: Pick<Stock, "symbol"> }) {
 }
 
 export function StockRow({ s }: { s: Stock }) {
+  const quote = useMarketData().quote(s.symbol);
   return (
     <Link to="/stocks/$symbol" params={{ symbol: s.symbol }} className="flex items-center justify-between gap-3 rounded-lg px-3 py-2.5 hover:bg-muted">
       <div className="flex items-center gap-3">
@@ -66,6 +68,7 @@ export function StockRow({ s }: { s: Stock }) {
       <div className="text-right">
         <p className="text-sm font-semibold">₹{s.price.toLocaleString("en-IN")}</p>
         <Change v={s.changePct} className="text-xs" />
+        <p className="text-[10px] text-muted-foreground">{quote ? quoteTime(quote.asOf) : "Demo price"}</p>
       </div>
     </Link>
   );
@@ -81,16 +84,19 @@ export function Stat({ label, value }: { label: string; value: ReactNode }) {
 }
 
 export function Ticker() {
-  const items = [...INDICES, ...INDICES];
+  const data = useMarketData();
+  const indices = data.indices();
+  const items = [...indices, ...indices];
   return (
     <div className="border-b border-border bg-secondary/80">
       <div className="flex items-center">
-        <div className="z-10 hidden shrink-0 border-r border-border bg-secondary px-4 py-2 text-[10px] font-semibold uppercase tracking-wider text-gold sm:block">Demo · {DEMO_DATE}</div>
+        <div className="z-10 hidden shrink-0 border-r border-border bg-secondary px-4 py-2 text-[10px] font-semibold uppercase tracking-wider text-gold sm:block">Latest quotes</div>
+        {items.length === 0 && <p className="px-5 py-2 text-xs text-muted-foreground">Index quotes unavailable</p>}
         <div className="overflow-hidden">
           <div className="animate-ticker flex w-max gap-8 py-2 text-xs">
             {items.map((x, i) => (
               <span key={i} className="flex items-center gap-2 whitespace-nowrap">
-                <span className="font-semibold">{x.name}</span>
+                <span className="font-semibold" title={quoteTime(x.asOf)}>{x.name}</span>
                 <span>{x.value.toLocaleString("en-IN")}</span>
                 <span className={x.changePct >= 0 ? "text-primary" : "text-destructive"}>
                   {x.change >= 0 ? "+" : ""}{x.change.toLocaleString("en-IN")} ({pct(x.changePct)})
@@ -128,7 +134,7 @@ export function SiteFooter() {
         ))}
       </div>
       <p className="mx-auto max-w-7xl px-5 pb-8 text-xs leading-relaxed text-muted-foreground">
-        Disclaimer: All market figures, recommendations and research shown are illustrative demonstration data and are not live prices or investment advice. Investments in securities are subject to market risks. Please consult a SEBI-registered adviser before investing.
+        Disclaimer: Quotes are the latest available from Yahoo Finance and may be delayed or stale; source timestamps are shown. Unavailable stock quotes use clearly marked demo prices. Fundamentals, recommendations and technical charts remain illustrative, not investment advice. Verify prices before trading. Investments in securities are subject to market risks. Please consult a SEBI-registered adviser before investing.
       </p>
     </footer>
   );
