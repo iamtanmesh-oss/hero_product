@@ -1,0 +1,3 @@
+- [ ] Connect latest available Nifty, index and NSE stock quotes with source timestamps.
+- [ ] Apply shared quotes across market, research, watchlist and portfolio pages; distinguish sample research.
+- [ ] Verify quote validation, fallback behavior and the website flow.
