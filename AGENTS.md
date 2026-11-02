@@ -9,5 +9,7 @@
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
 
-- All stock/market figures come through `marketData` in src/lib/data/provider.ts (demo provider with fallback); UI never hardcodes values, so a licensed feed can be swapped in later.
+- All quotes and indices come through `marketData`; subscribe with `useMarketData` so prices update consistently without hardcoding UI values.
+- Fetch allowlisted Yahoo quotes in a public read-only server function with five-minute caching, bounded concurrency and source timestamps; label unofficial quotes as latest available, not guaranteed live.
+- Preserve demo fundamentals and research separately from verified quote overlays, and explicitly label fallback prices and illustrative charts to avoid implying verified investment research.
 - Watchlist and portfolio persist in localStorage via useLocal until authentication/backend is enabled.

@@ -15,6 +15,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter, Ticker } from "@/components/common";
 import { Toaster } from "@/components/ui/sonner";
+import { MarketFeed } from "@/components/MarketFeed";
 
 function NotFoundComponent() {
   return (
@@ -127,6 +128,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <SiteHeader />
+      <MarketFeed />
       <Ticker />
       <main className="min-h-[60vh]">
         <Outlet />
