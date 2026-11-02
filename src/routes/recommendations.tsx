@@ -1,3 +1,4 @@
+import { useMarketData } from "@/hooks/use-market-data";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { PageHeader } from "@/components/common";
@@ -15,7 +16,7 @@ const Sel = ({ v, set, opts, label }: { v: string; set: (s: string) => void; opt
 );
 
 function Recos() {
-  const all = marketData.all();
+  const all = useMarketData().all();
   const [rating, setRating] = useState("");
   const [sector, setSector] = useState("");
   const [cap, setCap] = useState("");

@@ -1,3 +1,5 @@
+import { useMarketData } from "@/hooks/use-market-data";
+import { quoteTime } from "@/lib/data/quotes";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Star } from "lucide-react";
 import { toast } from "sonner";
@@ -32,8 +34,11 @@ function Table({ head, rows }: { head: string[]; rows: (string | number)[][] }) 
 
 function StockPage() {
   const { symbol } = Route.useLoaderData();
-  const s = marketData.get(symbol)!;
+  const data = useMarketData();
+  const s = data.get(symbol);
   const [wl, setWl] = useLocal<string[]>("ib-watchlist", []);
+  if (!s) return <p className="p-5">Stock unavailable.</p>;
+  const quote = data.quote(symbol);
   const inWl = wl.includes(s.symbol);
   const f = s.financials;
   const peers = marketData.all().filter((p) => p.sector === s.sector && p.symbol !== s.symbol);
@@ -55,7 +60,7 @@ function StockPage() {
             </div>
           </div>
         </div>
-        <div className="mt-3"><DemoBadge /> <span className="ml-2 text-xs text-muted-foreground">Source: IndexBaazaar demo dataset · Reporting date {DEMO_DATE}</span></div>
+        <div className="mt-3"><DemoBadge /> <span className="ml-2 text-xs text-muted-foreground">{quote ? `Yahoo Finance quote · ${quoteTime(quote.asOf)}` : "Demo price · quote unavailable"} · Fundamentals and research: sample dataset ({DEMO_DATE})</span></div>
       </section>
 
       <Section title="Price chart"><div className={card}><PriceChart id={s.symbol} last={s.price} /></div></Section>
@@ -68,7 +73,7 @@ function StockPage() {
         </div>
       </Section>
 
-      <Section title="B. Fundamental analysis">
+      <Section title="B. Fundamental analysis (illustrative)">
         <div className="grid grid-cols-2 gap-2 md:grid-cols-5">
           <Stat label="Revenue growth" value={pct(s.salesGrowth)} /><Stat label="Net profit growth" value={pct(s.profitGrowth)} /><Stat label="Operating margin" value={s.opm + "%"} /><Stat label="EBITDA margin" value={s.ebitdaMargin + "%"} /><Stat label="ROE" value={s.roe + "%"} />
           <Stat label="ROCE" value={s.roce + "%"} /><Stat label="Debt / Equity" value={s.de} /><Stat label="EPS" value={fmtINR(s.eps)} /><Stat label="Operating cash flow" value={fmtCr(f[4]!.ocf)} /><Stat label="Working capital" value={fmtCr(f[4]!.revenue * 0.08)} />
@@ -76,7 +81,7 @@ function StockPage() {
         <div className={card + " mt-4"}><p className="mb-2 text-sm font-semibold">5-year revenue & profit (₹ Cr)</p><MiniBars data={f.map((x) => ({ year: x.year, Revenue: x.revenue, Profit: x.profit }))} keys={[{ k: "Revenue", color: "var(--primary)" }, { k: "Profit", color: "var(--gold)" }]} /></div>
       </Section>
 
-      <Section title="C. Financial statements">
+      <Section title="C. Financial statements (illustrative)">
         <div className={card}>
           <Tabs defaultValue="pl">
             <TabsList className="flex-wrap"><TabsTrigger value="pl">Profit & Loss</TabsTrigger><TabsTrigger value="bs">Balance Sheet</TabsTrigger><TabsTrigger value="cf">Cash Flow</TabsTrigger><TabsTrigger value="q">Quarterly</TabsTrigger><TabsTrigger value="a">Annual</TabsTrigger></TabsList>

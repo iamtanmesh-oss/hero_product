@@ -1,3 +1,4 @@
+import { useMarketData } from "@/hooks/use-market-data";
 import { createFileRoute } from "@tanstack/react-router";
 import { Check } from "lucide-react";
 import { useState } from "react";
@@ -16,7 +17,7 @@ const PLANS = [
 
 function Premium() {
   const [yearly, setYearly] = useState(false);
-  const all = marketData.all();
+  const all = useMarketData().all();
   const groups: [string, typeof all][] = [
     ["Today's High Conviction Picks", [...all].sort((a, b) => b.confidence - a.confidence)],
     ["Momentum Stocks", [...all].sort((a, b) => b.rsi - a.rsi)],
