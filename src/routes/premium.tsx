@@ -16,8 +16,9 @@ const PLANS = [
 ];
 
 function Premium() {
+  const marketData = useMarketData();
   const [yearly, setYearly] = useState(false);
-  const all = useMarketData().all();
+  const all = marketData.all();
   const groups: [string, typeof all][] = [
     ["Today's High Conviction Picks", [...all].sort((a, b) => b.confidence - a.confidence)],
     ["Momentum Stocks", [...all].sort((a, b) => b.rsi - a.rsi)],

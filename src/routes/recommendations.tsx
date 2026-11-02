@@ -16,7 +16,8 @@ const Sel = ({ v, set, opts, label }: { v: string; set: (s: string) => void; opt
 );
 
 function Recos() {
-  const all = useMarketData().all();
+  const marketData = useMarketData();
+  const all = marketData.all();
   const [rating, setRating] = useState("");
   const [sector, setSector] = useState("");
   const [cap, setCap] = useState("");

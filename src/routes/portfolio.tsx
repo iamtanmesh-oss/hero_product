@@ -17,7 +17,7 @@ type H = { id: string; symbol: string; qty: number; buy: number };
 const COLORS = ["var(--primary)", "var(--gold)", "#4fc3f7", "#ef5350", "#ab47bc", "#26a69a", "#ffa726", "#8d6e63"];
 
 function Portfolio() {
-  useMarketData();
+  const marketData = useMarketData();
   const [ports, setPorts] = useLocal<Record<string, H[]>>("ib-portfolios", { "Main Portfolio": [] });
   const names = Object.keys(ports);
   const [cur, setCur] = useState(names[0] ?? "Main Portfolio");

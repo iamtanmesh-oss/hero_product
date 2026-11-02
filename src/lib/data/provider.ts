@@ -56,6 +56,7 @@ function refresh() {
 }
 
 export const marketData = {
+  demoStocks: () => (cache ?? refresh()).stocks,
   all: () => currentStocks ?? (cache ?? refresh()).stocks,
   status: (): DataStatus => quotes.size ? "Delayed" : "Demo",
   updated: () => [...quotes.values()].map((q) => q.asOf).sort().at(-1) ?? DEMO_DATE,

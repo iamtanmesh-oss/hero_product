@@ -13,7 +13,8 @@ const COLORS = ["var(--primary)", "var(--gold)", "var(--chart-2, #4fc3f7)", "var
 const METRICS: [keyof Stock, string][] = [["salesGrowth", "Revenue growth %"], ["profitGrowth", "Profit growth %"], ["roe", "ROE %"], ["roce", "ROCE %"], ["pe", "P/E"], ["pb", "P/B"], ["de", "Debt/Equity"], ["eps", "EPS ₹"], ["divYield", "Dividend yield %"], ["marketCap", "Market cap"]];
 
 function Compare() {
-  const all = useMarketData().all();
+  const marketData = useMarketData();
+  const all = marketData.all();
   const [sel, setSel] = useState<string[]>(["HDFCBANK", "ICICIBANK", "SBIN"]);
   const stocks = all.filter((stock) => sel.includes(stock.symbol));
   const chart = METRICS.slice(0, 6).map(([k, l]) => Object.fromEntries([["metric", l], ...stocks.map((s) => [s.symbol, s[k] as number])]));

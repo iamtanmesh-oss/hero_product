@@ -15,8 +15,9 @@ const FILTERS: [K, string][] = [["pe", "Max P/E"], ["pb", "Max P/B"], ["de", "Ma
 const MINS: [K, string][] = [["roe", "Min ROE"], ["roce", "Min ROCE"], ["divYield", "Min Div %"], ["salesGrowth", "Min sales gr."], ["profitGrowth", "Min profit gr."]];
 
 function Screener() {
+  const marketData = useMarketData();
   const nav = useNavigate();
-  const all = useMarketData().all();
+  const all = marketData.all();
   const [q, setQ] = useState("");
   const [sector, setSector] = useState("");
   const [cap, setCap] = useState("");

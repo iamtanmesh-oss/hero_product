@@ -12,7 +12,8 @@ export const Route = createFileRoute("/psu")({ head: () => seo("PSU Stock Resear
 const CATS: Record<string, string> = { Banking: "PSU Banking", Power: "Power", "Oil & Gas": "Oil & Gas", Defence: "Defence", Mining: "Mining", Infrastructure: "Infrastructure" };
 
 function PSU() {
-  const psu = useMarketData().all().filter((s) => s.psu);
+  const marketData = useMarketData();
+  const psu = marketData.all().filter((s) => s.psu);
   const [cat, setCat] = useState("");
   const list = psu.filter((s) => !cat || CATS[s.sector] === cat);
   return (

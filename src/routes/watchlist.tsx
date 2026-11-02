@@ -13,7 +13,7 @@ export const Route = createFileRoute("/watchlist")({ head: () => seo("Watchlist"
 type Lists = Record<string, { symbol: string; target?: number; news?: boolean }[]>;
 
 function Watch() {
-  useMarketData();
+  const marketData = useMarketData();
   const [lists, setLists] = useLocal<Lists>("ib-watchlists", { "My Watchlist": [] });
   const [quick] = useLocal<string[]>("ib-watchlist", []);
   const names = Object.keys(lists);

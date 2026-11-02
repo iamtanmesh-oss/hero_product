@@ -33,8 +33,9 @@ function Table({ head, rows }: { head: string[]; rows: (string | number)[][] }) 
 }
 
 function StockPage() {
+  const marketData = useMarketData();
   const { symbol } = Route.useLoaderData();
-  const data = useMarketData();
+  const data = marketData;
   const s = data.get(symbol);
   const [wl, setWl] = useLocal<string[]>("ib-watchlist", []);
   if (!s) return <p className="p-5">Stock unavailable.</p>;
