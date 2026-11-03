@@ -127,7 +127,7 @@ export const SEEDS: StockSeed[] = [
     ["RVNL", "Rail Vikas Nigam", "Railways", 350, "https://rvnl.org", "Railway infrastructure execution PSU.", ["Rail Projects", "Metro", "Highways"], 72.84],
     ["IRFC", "Indian Railway Finance Corp", "Financial Services", 130, "https://irfc.co.in", "Dedicated financing arm of Indian Railways.", ["Rolling Stock Leasing", "Project Finance"], 86.36],
     ["DLF", "DLF", "Real Estate", 750, "https://www.dlf.in", "India's largest listed real estate developer.", ["Residential", "Commercial Rentals"]],
-    ["ZOMATO", "Eternal (Zomato)", "Consumer Internet", 300, "https://www.eternal.com", "Food delivery and quick commerce platform.", ["Food Delivery", "Blinkit", "Hyperpure"]],
+    ["ETERNAL", "Eternal (Zomato)", "Consumer Internet", 300, "https://www.eternal.com", "Food delivery and quick commerce platform.", ["Food Delivery", "Blinkit", "Hyperpure"]],
     ["TRENT", "Trent", "Retail", 5000, "https://trentlimited.com", "Tata group fashion retailer (Westside, Zudio).", ["Westside", "Zudio", "Star"]],
     ["DMART", "Avenue Supermarts", "Retail", 4200, "https://www.dmartindia.com", "Value retail supermarket chain DMart.", ["Grocery", "General Merchandise", "Apparel"]],
     ["PIDILITIND", "Pidilite Industries", "Chemicals", 1450, "https://www.pidilite.com", "Adhesives and sealants maker (Fevicol).", ["Consumer & Bazaar", "B2B"]],
