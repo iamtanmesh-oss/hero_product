@@ -12,8 +12,8 @@ export const getMarketQuotes = createServerFn({ method: "GET" }).handler(async (
     const symbols = [...INDEX_SYMBOLS.map((index) => index.symbol), ...SEEDS.map((stock) => stock.symbol + ".NS")];
     const quotes: Quote[] = [];
     // Fixed allowlist, bounded concurrency, timeouts and caching keep this public read bounded.
-    for (let i = 0; i < symbols.length; i += 4) {
-      const batch = await Promise.all(symbols.slice(i, i + 4).map(async (symbol) => {
+    for (let i = 0; i < symbols.length; i += 8) {
+      const batch = await Promise.all(symbols.slice(i, i + 8).map(async (symbol) => {
         try {
           const response = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=1d&interval=1d`, {
             headers: { "User-Agent": "Mozilla/5.0", Accept: "application/json" },
