@@ -20,7 +20,7 @@ function PSU() {
     <div>
       <PageHeader eyebrow="PSU" title="PSU Stock Research & Analysis" subtitle="A dedicated dashboard for India's public sector companies." />
       <div className="mx-auto max-w-7xl px-5">
-        <div className="flex flex-wrap gap-2">{["", ...Object.values(CATS)].map((c) => <button key={c} onClick={() => setCat(c)} className={"rounded-full px-4 py-2 text-sm " + (cat === c ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground")}>{c || "All PSU"}</button>)}</div>
+        <div className="flex flex-wrap gap-2">{["", ...new Set(Object.values(CATS))].map((c) => <button key={c} onClick={() => setCat(c)} className={"rounded-full px-4 py-2 text-sm " + (cat === c ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground")}>{c || "All PSU"}</button>)}</div>
       </div>
       <Section title="PSU screener & peer comparison">
         <div className="glass overflow-x-auto rounded-2xl">
