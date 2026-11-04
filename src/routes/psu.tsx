@@ -9,7 +9,7 @@ import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/psu")({ head: () => seo("PSU Stock Research & Analysis", "Screen and compare public sector companies on dividends, government ownership, debt and performance."), component: PSU });
 
-const CATS: Record<string, string> = { Banking: "PSU Banking", Power: "Power", "Oil & Gas": "Oil & Gas", Defence: "Defence", Mining: "Mining", Infrastructure: "Infrastructure" };
+const CATS: Record<string, string> = { Banking: "PSU Banking", Power: "Power", "Oil & Gas": "Oil & Gas", Defence: "Defence", Mining: "Mining", Metals: "Mining", Infrastructure: "Infrastructure", "Capital Goods": "Infrastructure", Railways: "Railways", "Financial Services": "Finance & Insurance", Insurance: "Finance & Insurance", Chemicals: "Fertilizers & Chemicals" };
 
 function PSU() {
   const marketData = useMarketData();
