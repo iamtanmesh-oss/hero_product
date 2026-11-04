@@ -31,7 +31,7 @@ export function TeamSection() {
           >
             <div className="aspect-square overflow-hidden rounded-xl bg-muted">
               {m.photo ? (
-                <img src={m.photo} alt={m.name} loading="lazy" className="h-full w-full object-cover object-top" />
+                <img src={m.photo} alt={m.name} loading="eager" decoding="async" className="h-full w-full object-cover object-top" />
               ) : (
                 <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-muted-foreground">
                   <UserRound className="h-16 w-16" />
