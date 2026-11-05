@@ -4,10 +4,10 @@ import { TeamSection } from "@/components/TeamSection";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About IndexBaazaar — Our Leadership Team" },
-      { name: "description", content: "Meet the founder, leadership and advisory team behind IndexBaazaar's Indian stock market research." },
-      { property: "og:title", content: "About IndexBaazaar — Our Leadership Team" },
-      { property: "og:description", content: "Meet the minds behind IndexBaazaar." },
+      { title: "About IndexBaazaar — Founder & Leadership" },
+      { name: "description", content: "Meet the founder behind IndexBaazaar's Indian stock market research." },
+      { property: "og:title", content: "About IndexBaazaar — Founder & Leadership" },
+      { property: "og:description", content: "Meet the mind behind IndexBaazaar." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
